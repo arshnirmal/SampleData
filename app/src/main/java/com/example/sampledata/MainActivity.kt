@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.windowInsetsStartWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.progressSemantics
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -62,7 +63,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sampledata.model.Item
 import com.example.sampledata.ui.theme.SampleDataTheme
-import com.example.sampledata.view.Items
+import com.example.sampledata.viewModel.ItemGrid
 import com.example.sampledata.viewModel.ItemList
 import com.example.sampledata.viewModel.ItemViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -176,15 +177,34 @@ fun AppScreen(itemList: List<Item>) {
             }
         },
         bottomBar = {
-            BottomNavigation(
-                backgroundColor =  colors.background,
-            ){
-                screens.forEach { screen ->
-                    BottomNavigationItem(
-                        icon = { Icon(Icons.Rounded.AddCircle, contentDescription = null) },
-                        selected = selectedScreen == screen,
-                        onClick = { selectedScreen = screen }
-                    )
+            Column {
+                Divider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.dp),
+                    color = Color.Gray
+                )
+                BottomNavigation(
+                    elevation = 2.dp,
+                    backgroundColor = Color(0xFFfbfafb),
+                ) {
+                    screens.forEach { screen ->
+                        BottomNavigationItem(
+                            icon = {
+                                   Box(
+                                       modifier = Modifier
+                                           .size(24.dp)
+                                           .background(if (selectedScreen == screen) Color(0xFF5cb075) else Color(0xFFe8e9e9), shape = CircleShape),
+                                   )
+                            },
+                            selected = selectedScreen == screen,
+                            onClick = {
+                                if(screen == "ListView" || screen == "GridView") {
+                                    selectedScreen = screen
+                                }
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -196,7 +216,7 @@ fun AppScreen(itemList: List<Item>) {
         ) {
             when (selectedScreen) {
                 "ListView" -> ItemList(itemList = itemList)
-                "GridView" -> ItemList(itemList = itemList)
+                "GridView" -> ItemGrid(itemList = itemList)
             }
         }
     }
