@@ -19,11 +19,14 @@ import com.example.sampledata.model.Item
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.example.sampledata.R
 
@@ -117,13 +120,12 @@ fun SingleGridItem(item: Item){
                 .size(100.dp)
         ) {
             Image(
-                painter = rememberImagePainter(
-                    data = item.image,
-                    builder = {
+                painter = rememberAsyncImagePainter(
+                    ImageRequest.Builder(LocalContext.current).data(data = item.image).apply(block = fun ImageRequest.Builder.() {
                         crossfade(true)
                         placeholder(R.drawable.ic_launcher_background)
                         transformations(CircleCropTransformation())
-                    }
+                    }).build()
                 ),
                 contentDescription = "Item Image",
                 modifier = Modifier
