@@ -61,7 +61,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SampleDataTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -91,12 +90,12 @@ fun AppScreen(itemList: List<Item>) {
                 colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = Color.LightGray),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(80.dp), // Adjust the height as needed
+                    .height(90.dp),
                 title = {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp, bottom = 4.dp), // Adjust the top and bottom padding as needed
+                            .padding(top = 8.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -120,8 +119,9 @@ fun AppScreen(itemList: List<Item>) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(40.dp)
+                                .height(34.dp)
                                 .padding(end = 16.dp)
+//                                .background(Color.Blue,shape = MaterialTheme.shapes.small)
                         ) {
                             SearchBar(
                                 modifier = Modifier
@@ -132,7 +132,11 @@ fun AppScreen(itemList: List<Item>) {
                                 active = isSearchActive,
                                 onActiveChange = { isSearchActive = it },
                             ) {
-
+                                Text(
+                                    text = "Search",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = Color.Gray
+                                )
                             }
                         }
                     }
